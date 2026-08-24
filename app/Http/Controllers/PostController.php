@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -28,8 +29,12 @@ class PostController extends Controller
         return view('create-post');
     }
 
-    public function viewPost(Post $post){
-        return view('view-post', ['post' => $post]);
+    public function viewPost(Post $post, User $user){
+        return view('view-post', 
+        ['post' => $post,
+        'avatar' => auth()->user()->avatar,
+        'username' => auth()->user()->username,
+        ]);
     }
 
     public function delete(Post $post){
