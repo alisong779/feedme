@@ -44,9 +44,11 @@ class UserController extends Controller
         return redirect('/')->with('success', 'You are now logged out.');
     }
 
-     public function homepageFeed() {
+     public function homepageFeed(User $user) {
+        $this->getSharedData($user);
+          
         if (auth()->check()) {
-            return view('homepage-feed');
+            return view('homepage-feed', ['posts' => auth()->user()->feed_posts()->with('user')->latest()->paginate(3)]);
         } else {
             return view('homepage');
         }
@@ -71,7 +73,7 @@ class UserController extends Controller
 
     public function profile(User $user) {
         $this->getSharedData($user);
-        return view('profile-posts', ['posts' => $user->posts()->latest()->get()]);
+        return view('profile-posts', ['posts' => $user->posts()->latest()->get(),  'pagetitle' => $user->username . "'s Profile"]);
     }
 
     public function profileFollowers(User $user) {

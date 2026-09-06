@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :pagetitle="$pagetitle">
   <div class="container py-md-5 container--narrow">
       <h2>
         <img class="avatar-small" src="{{ $sharedData['avatar'] ? asset('storage/avatars/' . $sharedData['avatar']) : asset('images/default-avatar.jpg') }}" alt="{{ $sharedData['username'] }}'s avatar" /> {{$sharedData['username'] }}

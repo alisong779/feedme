@@ -33,7 +33,8 @@ class PostController extends Controller
         return view('view-post', 
         ['post' => $post,
         'avatar' => auth()->user()->avatar,
-        'username' => auth()->user()->username,
+        'username' => auth()->user()->username
+       
         ]);
     }
 
@@ -61,4 +62,26 @@ class PostController extends Controller
 
         return back()->with('success', 'Post successfully updated.');
     }
+
+    public function search($term)
+{
+    // Search posts by title/body
+    $posts = Post::search($term)->get();
+
+    // Search users by username
+    $userIds = User::where('username', 'like', '%' . $term . '%')
+        ->pluck('id');
+
+    // Add posts belonging to matching users
+    if ($userIds->count()) {
+        $userPosts = Post::whereIn('user_id', $userIds)->get();
+
+        $posts = $posts->merge($userPosts)->unique('id');
+    }
+
+    $posts->load('user:id,username,avatar');
+
+    return $posts->values();
+}
+    
 }

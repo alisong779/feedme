@@ -63,4 +63,8 @@ class User extends Authenticatable
     public function following(){
         return $this->hasMany(Follow::class, 'user_id');
     }
+
+    public function feed_posts(){
+        return $this->hasManyThrough(Post::class, Follow::class, 'user_id', 'user_id', 'id', 'followeduser');
+    }
 }
