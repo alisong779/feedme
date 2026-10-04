@@ -10,6 +10,18 @@
         </form>
         @endif
 
+        @if(auth()->user()->username != $sharedData['username'])
+            <button
+    type="button"
+    class="btn btn-success btn-sm ml-2"
+    x-data
+    @click="$dispatch('start-chat', { userId: {{ $sharedData['userId'] }} })"
+>
+    Message <i class="fas fa-comment"></i>
+</button>
+        @endif
+        
+
         @if($sharedData['checkFollowing'])
         <form class="ml-2 d-inline" action="/remove-follow/{{$sharedData['username']}}" method="POST">
           @csrf          

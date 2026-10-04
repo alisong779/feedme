@@ -2,11 +2,9 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\ChatMessage as ChatMessageModel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -15,25 +13,28 @@ class ChatMessage implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $chat;
-
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($chat)
-    {
-        $this->chat = ['username' => $chat['username'], 'avatar' => $chat['avatar'], 'textvalue' => $chat['textvalue']];
+    public function __construct(
+        public ChatMessageModel $message
+    ) {
     }
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
     public function broadcastOn(): array
     {
+        $user1 = min(
+            $this->message->sender_id,
+            $this->message->receiver_id
+        );
+
+        $user2 = max(
+            $this->message->sender_id,
+            $this->message->receiver_id
+        );
+
         return [
-            new PrivateChannel('chatchannel'),
+            new PrivateChannel("chat.{$user1}.{$user2}"),
         ];
     }
 }

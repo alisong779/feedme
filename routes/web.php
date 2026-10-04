@@ -49,25 +49,6 @@ Route::get('/profile/{user:username}/following', [UserController::class, 'profil
 Route::post('/create-follow/{user:username}', [FollowController::class, 'createFollow'])->middleware('mustBeLoggedIn');
 Route::post('/remove-follow/{user:username}', [FollowController::class, 'removeFollow'])->middleware('mustBeLoggedIn');
 
-//Chat Route
-Route::post('send-chat-message', function (Request $request) {
-    $formFields = $request->validate([
-        'textvalue' => 'required',
-    ]);
 
-    if (!trim(strip_tags($formFields['textvalue']))) {
-        return response()->noContent();
-    }
-
-    broadcast(new ChatMessage([
-        'username' => auth()->user()->username,
-        'textvalue' => strip_tags($formFields['textvalue']),
-        'avatar' => auth()->user()->avatar
-            ? asset('storage/avatars/' . auth()->user()->avatar)
-            : asset('images/default-avatar.jpg'),
-    ]))->toOthers();
-
-    return response()->noContent();
-})->middleware('mustBeLoggedIn');
 
 require __DIR__.'/settings.php';

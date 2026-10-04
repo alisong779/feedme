@@ -291,8 +291,6 @@ textarea.tall-textarea {
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    opacity: 0;
-    transform: translateY(100%);
 }
 
 .chat-wrapper--ready {
@@ -321,11 +319,7 @@ textarea.tall-textarea {
     opacity: 1;
 }
 
-.chat-log {
-    padding: 8px;
-    flex: 1;
-    overflow: auto;
-}
+
 
 .chat-self,
 .chat-other {
@@ -388,4 +382,35 @@ textarea.tall-textarea {
     border: none;
     outline: none;
     font-size: 0.75rem;
+}
+
+.chat-timestamp {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin-top: 3px;
+}
+
+.livewire-chat {
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    right: 20px;
+    width: 290px;
+    height: 350px;
+    max-height: 350px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-log {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.chat-empty {
+    padding: 40px 15px;
+    color: #555;
 }
