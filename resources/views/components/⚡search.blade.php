@@ -25,11 +25,12 @@ new class extends Component
 <div
     x-data="{ open: false }"
     @keydown.escape.window="open = false"
+    class="d-flex align-items-center"
 >
     {{-- Search button --}}
     <a
         href="#"
-        class="text-white mr-2 header-search-icon"
+        class="text-white mr-2 header-search-icon d-flex align-items-center justify-content-center"
         title="Search"
         data-toggle="tooltip"
         data-placement="bottom"
@@ -103,7 +104,8 @@ new class extends Component
                                 @foreach ($posts as $post)
 
                                     <a
-                                        href="/post/{{ $post->id }}"
+                                        href="/post/{{ $post->id }}" 
+                                        wire:navigate
                                         class="list-group-item list-group-item-action"
                                     >
                                         <img

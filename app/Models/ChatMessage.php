@@ -11,6 +11,7 @@ class ChatMessage extends Model
         'sender_id',
         'receiver_id',
         'message',
+        'read_at',
     ];
 
     public function sender(): BelongsTo

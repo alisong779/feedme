@@ -13,6 +13,14 @@ new class extends Component
     public function startChat(int $userId): void
     {
         $this->receiverId = $userId;
+
+        ChatMessage::where('sender_id', $userId)
+            ->where('receiver_id', auth()->id())
+            ->whereNull('read_at')
+            ->update([
+                'read_at' => now(),
+            ]);
+            $this->dispatch('messages-read');
     }
 
     public function closeChat(): void
@@ -64,6 +72,13 @@ new class extends Component
         ->with('sender')
         ->oldest()
         ->get();
+    }
+
+    public function getUnreadCountProperty(): int
+    {
+        return ChatMessage::where('receiver_id', auth()->id())
+            ->whereNull('read_at')
+            ->count();
     }
 };
 ?>
@@ -134,11 +149,10 @@ new class extends Component
                 <span>{{ $this->recipient?->username }}</span>
             </div>
 
-            <div>
-
+           <div>
                 <button
                     type="button"
-                    class="btn btn-sm text-white"
+                    class="btn btn-sm text-white chat-control-btn chat-minimize-btn"
                     @click="minimized = !minimized"
                     title="Minimize chat"
                 >
@@ -147,13 +161,12 @@ new class extends Component
 
                 <button
                     type="button"
-                    class="btn btn-sm text-white"
+                    class="btn btn-sm text-white chat-control-btn chat-close-btn"
                     @click="closeChat()"
                     title="Close chat"
                 >
                     <i class="fas fa-times"></i>
                 </button>
-
             </div>
 
         </div>
@@ -163,6 +176,7 @@ new class extends Component
             x-show="!minimized"
             x-ref="chatLog"
             x-init="$nextTick(() => $el.scrollTop = $el.scrollHeight)"
+            x-on:livewire:navigated.window="$nextTick(() => $el.scrollTop = $el.scrollHeight)"
         >
 
             @forelse($this->messages as $chatMessage)

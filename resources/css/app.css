@@ -15,13 +15,11 @@ body,
 
 .header-search-icon {
     position: relative;
-    top: 3px;
-}
-
-.header-chat-icon {
-    cursor: pointer;
-    position: relative;
-    top: 3px;
+    top: 0;
+    width: 32px;
+    height: 40px;
+    font-size: 22px;
+    text-decoration: none !important;
 }
 
 .avatar-small {
@@ -34,13 +32,15 @@ body,
 }
 
 .avatar-tiny {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 12px;
     margin-right: 4px;
     position: relative;
     top: -1px;
 }
+
+
 
 .form-control-title {
     font-size: 2rem;
@@ -311,7 +311,7 @@ textarea.tall-textarea {
 }
 
 .chat-title-bar-close {
-    opacity: 0.7;
+    
     cursor: pointer;
 }
 
@@ -413,4 +413,134 @@ textarea.tall-textarea {
 .chat-empty {
     padding: 40px 15px;
     color: #555;
+}
+
+.unread-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    text-align: center;
+}
+
+.chat-dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 250px;
+    max-height: 350px;
+    overflow-y: auto;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.chat-dropdown-header {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.chat-dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+.chat-dropdown-empty {
+    padding: 15px;
+    text-align: center;
+    color: #777;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+.chat-dropdown-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-message-preview {
+    font-size: 0.8rem;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 3px;
+}
+
+.chat-message-time {
+    font-size: 0.7rem;
+    color: #999;
+    margin-top: 2px;
+}
+
+.chat-dropdown-item.has-unread {
+    background-color: #f0f7ff;
+}
+
+.chat-dropdown-item.has-unread strong {
+    color: #212529;
+    font-weight: bold;
+}
+
+.conversation-unread-badge {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    text-align: center;
+}
+
+.chat-minimize-btn {
+    background-color: #3978e8;
+}
+
+.chat-minimize-btn:hover {
+    background-color: #245bb8;
+}
+
+/* Close button */
+.chat-close-btn {
+    background-color: #dc3545;
+}
+
+.chat-close-btn:hover {
+    background-color: #a71d2a;
+}
+
+/* Remove Bootstrap focus outline */
+.chat-control-btn:focus {
+    box-shadow: none;
+}
+
+.header-chat-icon {
+    position: relative;
+    top: 0;
+    width: 32px;
+    height: 40px;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
 }

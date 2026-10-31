@@ -1,7 +1,7 @@
 <x-layout pagetitle="Edit Post {{$post->title}}">
   <div class="container py-md-5 container--narrow">
       <form action="/post/{{$post->id}}" method="POST">
-        <p><small><strong><a href="/post/{{$post->id}}">&laquo; Back to post</a></strong></small></p>
+        <p><small><strong><a href="/post/{{$post->id}}" wire:navigate>&laquo; Back to post</a></strong></small></p>
         @csrf
         @method('PUT')
         <div class="form-group">

@@ -23,18 +23,12 @@ class ChatMessage implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        $user1 = min(
-            $this->message->sender_id,
-            $this->message->receiver_id
-        );
-
-        $user2 = max(
-            $this->message->sender_id,
-            $this->message->receiver_id
-        );
+        $user1 = min($this->message->sender_id, $this->message->receiver_id);
+        $user2 = max($this->message->sender_id, $this->message->receiver_id);
 
         return [
             new PrivateChannel("chat.{$user1}.{$user2}"),
+            new PrivateChannel("user.{$this->message->receiver_id}"),
         ];
     }
 }
