@@ -16,12 +16,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.2/font/bootstrap-icons.min.css">
       @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
     <header class="header-bar mb-3">
       <div class="container d-flex flex-column flex-md-row align-items-center p-3">
-        <h4 class="my-0 mr-md-auto font-weight-normal"><a href="/" wire:navigate class="text-white">FeedMe</a></h4>
+        <h4 class="my-0 mr-md-auto font-weight-normal"><a href="/" wire:navigate class="text-white">FeedMe <i class="bi bi-fork-knife"></i></a></h4>
         
         @auth
         <div class="d-flex flex-row align-items-center my-3 my-md-0">

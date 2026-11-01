@@ -5,11 +5,7 @@
         @can('update', $post)
         <span class="pt-2">
           <a href="/post/{{$post->id}}/edit" wire:navigate class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-          <form class="delete-post-form d-inline" action="/post/{{$post->id}}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash"></i></button>
-          </form>
+          <livewire:delete-post :post="$post"/>
         </span>
         @endcan
       </div>

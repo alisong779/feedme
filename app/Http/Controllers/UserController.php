@@ -123,19 +123,9 @@ class UserController extends Controller
         $user->avatar = $filename;
         $user->save();
         return back()->with('success', 'Success. Avatar updated!');
-        
-        /*return response()->json([
-            'success' => true,
-            'message' => 'Image uploaded and resized successfully.',
-            'path' => Storage::url("avatars/{$filename}"),
-        ], 200);*/
+    
 
     } catch (\Exception $e) {
-        /*return response()->json([
-            'success' => false,
-            'message' => 'Image upload failed.',
-            'error' => $e->getMessage(),
-        ], 500);*/
        return back()->with('failure', 'Unable to upload image.');  
     }
 }
