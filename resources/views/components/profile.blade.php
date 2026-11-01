@@ -30,7 +30,7 @@
         @endif
 
         @if(auth()->user()->username == $sharedData['username'])
-          <a href="/manage-avatar" class="btn btn-secondary btn-sm">Manage Avatar</a>
+          <a href="/manage-avatar" wire:navigate class="btn btn-secondary btn-sm">Manage Avatar</a>
           @endif
         @endauth
       </h2>

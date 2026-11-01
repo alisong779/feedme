@@ -86,7 +86,7 @@ new class extends Component
                     class="circle-loader circle-loader--visible"
                 ></div>
 
-                <div class="live-search-results">
+                <div class="live-search-results {{ strlen($search) >= 2 ? 'live-search-results--visible' : '' }}">
 
                     @if ($search !== '')
 
@@ -104,8 +104,9 @@ new class extends Component
                                 @foreach ($posts as $post)
 
                                     <a
-                                        href="/post/{{ $post->id }}" 
+                                        href="/post/{{ $post->id }}"
                                         wire:navigate
+                                        @click="open = false"
                                         class="list-group-item list-group-item-action"
                                     >
                                         <img

@@ -80,7 +80,7 @@ async sendRequest() {
       ${posts
         .map(post => {
           let postDate = new Date(post.created_at)
-          return `<a href="/post/${post.id}" class="list-group-item list-group-item-action">
+          return `<a href="/post/${post.id}" wire:navigate class="list-group-item list-group-item-action">
         <img class="avatar-tiny" src="${post.user.avatar ? `/storage/avatars/${post.user.avatar}` : '/images/default-avatar.jpg'}" alt="${post.user.username}'s avatar"><strong>${post.title}</strong>
         <span class="text-muted small">by ${post.user.username} on ${postDate.getMonth() + 1}/${postDate.getDate()}/${postDate.getFullYear()}</span>
       </a>`
