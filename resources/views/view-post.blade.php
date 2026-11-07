@@ -11,7 +11,7 @@
       </div>
 
       <p class="text-muted small mb-4">
-        <a href="/profile/{{$post->user->username}}" wire:navigate><img class="avatar-small" src="{{ $avatar ? asset('storage/avatars/' . $avatar) : asset('images/default-avatar.jpg') }}" alt="{{ $username }}'s avatar" /></a>
+        <a href="/profile/{{$post->user->username}}" wire:navigate><img class="avatar-small" src="{{ $post->user->avatar ? asset('storage/avatars/' . $post->user->avatar) : asset('images/default-avatar.jpg') }}" alt="{{ $username }}'s avatar" /></a>
         Posted by <a href="/profile/{{$post->user->username}}" wire:navigate>{{$post->user->username}}</a> on {{$post->created_at->format('n/j/Y')}}
       </p>
 

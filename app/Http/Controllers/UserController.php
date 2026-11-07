@@ -75,9 +75,18 @@ class UserController extends Controller
         ]);
     }
 
+
     public function profile(User $user) {
         $this->getSharedData($user);
-        return view('profile-posts', ['posts' => $user->posts()->latest()->get(),  'pagetitle' => $user->username . "'s Profile"]);
+
+        return view('profile-posts', [
+            'posts' => $user->posts()
+                ->with('recipe')
+                ->latest()
+                ->get(),
+
+            'pagetitle' => $user->username . "'s Profile"
+        ]);
     }
 
     public function profileFollowers(User $user) {

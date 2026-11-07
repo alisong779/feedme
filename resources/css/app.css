@@ -49,6 +49,15 @@ body,
     top: -1px;
 }
 
+.avatar-profile {
+    width: 75px;
+    height: 75px;
+    border-radius: 16px;
+    margin-right: 5px;
+    position: relative;
+    top: -3px;
+}
+
 .form-control-title {
     font-size: 2rem;
     font-weight: 500;

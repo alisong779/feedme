@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\ChatMessage;
+use App\Models\Post;
+use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use App\Models\ChatMessage;
 
 class User extends Authenticatable
 {
@@ -77,5 +79,17 @@ class User extends Authenticatable
     public function receivedMessages()
     {
         return $this->hasMany(ChatMessage::class, 'receiver_id');
+    }
+
+    public function recipes()
+    {
+        return $this->hasManyThrough(
+            Recipe::class,
+            Post::class,
+            'user_id',
+            'post_id',
+            'id',
+            'id'
+        );
     }
 }

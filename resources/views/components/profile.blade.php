@@ -1,7 +1,7 @@
 <x-layout :pagetitle="$pagetitle">
   <div class="container py-md-5 container--narrow">
       <h2>
-        <img class="avatar-small" src="{{ $sharedData['avatar'] ? asset('storage/avatars/' . $sharedData['avatar']) : asset('images/default-avatar.jpg') }}" alt="{{ $sharedData['username'] }}'s avatar" /> {{$sharedData['username'] }}
+        <img class="avatar-profile" src="{{ $sharedData['avatar'] ? asset('storage/avatars/' . $sharedData['avatar']) : asset('images/default-avatar.jpg') }}" alt="{{ $sharedData['username'] }}'s avatar" /> {{$sharedData['username'] }}
         @auth
         @if(!$sharedData['checkFollowing'] AND auth()->user()->username != $sharedData['username'])
           <livewire:add-follow :username="$sharedData['username']"/>

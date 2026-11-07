@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,24 +14,28 @@ class Post extends Model
      use Searchable;
      use HasFactory;
 
-      protected $fillable = [
+    protected $fillable = [
         'title',
         'body',
-        'user_id'
+        'user_id',
+        'image',
     ];
 
     public function toSearchableArray()
-{
-    return [
-        'title' => $this->title,
-        'body' => $this->body,
-    ];
-}
-
-   
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body,
+        ];
+    }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function recipe()
+    {
+        return $this->hasOne(Recipe::class);
     }
 }
