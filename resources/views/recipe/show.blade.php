@@ -3,12 +3,14 @@
     <div class="container py-5">
         <div class="container--narrow mx-auto">
 
+           
             @if (auth()->id() === $recipe->post->user_id)
 
-                <div class="mb-4">
+                <div class="recipe-owner-actions mb-4">
 
                     <a href="{{ route('recipe.edit', $recipe->id) }}"
-                    class="btn btn-outline-primary btn-sm">
+                    class="recipe-edit-btn">
+                        <i class="fas fa-pen mr-2"></i>
                         Edit Recipe
                     </a>
 
@@ -21,7 +23,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <button type="submit" class="recipe-delete-btn">
+                            <i class="fas fa-trash-alt mr-2"></i>
                             Delete Recipe
                         </button>
                     </form>
@@ -29,133 +32,219 @@
                 </div>
 
             @endif
+            
+            {{-- Recipe Hero --}}
+            <div class="recipe-detail-hero mb-4">
 
-            {{-- Recipe Header --}}
-            <h2>{{ $recipe->post->title }}</h2>
+                @if ($recipe->post->image)
+                    <div class="recipe-detail-image">
+                        <img
+                            src="{{ asset('storage/' . $recipe->post->image) }}"
+                            alt="{{ $recipe->post->title }}"
+                        >
+                    </div>
+                @endif
 
-            <p class="text-muted">
-                By {{ $recipe->post->user->username }}
-            </p>
+                <div class="recipe-detail-intro">
 
-            {{-- Recipe Image --}}
-            @if ($recipe->post->image)
-                <div class="mb-4">
-                    <img
-                        src="{{ asset('storage/' . $recipe->post->image) }}"
-                        alt="{{ $recipe->post->title }}"
-                        class="img-fluid rounded"
-                        style="max-height: 450px; width: 100%; object-fit: cover;"
-                    >
+                    <span class="recipe-detail-eyebrow">
+                        FROM THE FEEDME KITCHEN
+                    </span>
+
+                    <h1>{{ $recipe->post->title }}</h1>
+
+                    <p class="recipe-detail-author">
+                        <i class="fas fa-user-circle mr-1"></i>
+                        Shared by <strong>{{ $recipe->post->user->username }}</strong>
+                    </p>
+
+                    @if ($recipe->post->body)
+                        <p class="recipe-detail-description">
+                            {{ $recipe->post->body }}
+                        </p>
+                    @endif
+
                 </div>
-            @endif
 
-            {{-- Description --}}
-            <div class="mb-4">
-                <p>{{ $recipe->post->body }}</p>
             </div>
+         
+            {{-- Recipe Information --}}
+            <div class="recipe-detail-info mb-4">
 
-            {{-- Preparation Information --}}
-            <div class="card mb-4">
-                <div class="card-body">
+                <div class="recipe-detail-section-heading">
+                    <span class="recipe-detail-section-number">01</span>
+                    <div>
+                        <h4>Recipe Information</h4>
+                        <p>A few helpful details before we get cooking!</p>
+                    </div>
+                </div>
 
-                    <h4 class="mb-3">Recipe Information</h4>
+                <div class="row">
 
-                    <div class="row">
-
-                        <div class="col-6 col-md-3 mb-3">
-                            <strong>Prep Time</strong>
-                            <div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="recipe-info-card">
+                            <i class="fas fa-clock"></i>
+                            <h6>Prep Time</h6>
+                            <strong>
                                 {{ $recipe->prep_time_minutes !== null
                                     ? $recipe->prep_time_minutes . ' min'
                                     : 'Not specified' }}
-                            </div>
+                            </strong>
                         </div>
+                    </div>
 
-                        <div class="col-6 col-md-3 mb-3">
-                            <strong>Cook Time</strong>
-                            <div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="recipe-info-card">
+                            <i class="fas fa-fire"></i>
+                            <h6>Cook Time</h6>
+                            <strong>
                                 {{ $recipe->cook_time_minutes !== null
                                     ? $recipe->cook_time_minutes . ' min'
                                     : 'Not specified' }}
-                            </div>
+                            </strong>
                         </div>
-
-                        <div class="col-6 col-md-3 mb-3">
-                            <strong>Servings</strong>
-                            <div>
-                                {{ $recipe->servings ?? 'Not specified' }}
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-3 mb-3">
-                            <strong>Difficulty</strong>
-                            <div>
-                                {{ $recipe->difficulty ?? 'Not specified' }}
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="recipe-info-card">
+                            <i class="fas fa-users"></i>
+                            <h6>Servings</h6>
+                            <strong>
+                                {{ $recipe->servings ?? 'Not specified' }}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="recipe-info-card">
+                            <i class="fas fa-utensils"></i>
+                            <h6>Difficulty</h6>
+                            <strong>
+                                {{ $recipe->difficulty ?? 'Not specified' }}
+                            </strong>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+    
             {{-- Ingredients --}}
-        <div class="card mb-4">
-            <div class="card-body">
+            <div class="recipe-detail-info mb-4">
 
-                <h4 class="mb-3">Ingredients</h4>
+                <div class="recipe-detail-section-heading">
+                    <span class="recipe-detail-section-number">02</span>
+                    <div>
+                        <h4>Ingredients</h4>
+                        <p>Everything you'll need to make this delicious recipe!</p>
+                    </div>
+                </div>
 
-                <ul class="list-group list-group-flush">
+                <div class="recipe-ingredients-list">
 
                     @foreach ($recipe->ingredients as $ingredient)
-                        <li class="list-group-item">
 
-                            <strong>
-                                {{ $ingredient->quantity }}
-                                {{ $ingredient->measurement }}
-                            </strong>
+                        <div class="recipe-ingredient-item">
 
-                            {{ $ingredient->name }}
+                            <i class="fas fa-check-circle"></i>
 
-                        </li>
+                            <div>
+                                @if ($ingredient->quantity || $ingredient->measurement)
+                                    <strong>
+                                        {{ $ingredient->quantity }}
+                                        {{ $ingredient->measurement }}
+                                    </strong>
+                                @endif
+
+                                <span>{{ $ingredient->name }}</span>
+                            </div>
+
+                        </div>
+
                     @endforeach
 
-                </ul>
+                </div>
 
             </div>
-        </div>
-        {{-- Instructions --}}
-        <div class="card mb-4">
-            <div class="card-body">
 
-                <h4 class="mb-3">Instructions</h4>
+        
+            {{-- Cooking Instructions --}}
+            <div class="recipe-detail-info mb-4">
 
-                @foreach ($recipe->steps as $index => $step)
-
-                    <div class="mb-4">
-
-                        <h5>Step {{ $index + 1 }}</h5>
-
-                        <p>{{ $step->instruction }}</p>
-
+                <div class="recipe-detail-section-heading">
+                    <span class="recipe-detail-section-number">03</span>
+                    <div>
+                        <h4>Cooking Instructions</h4>
+                        <p>Follow along and create something delicious!</p>
                     </div>
+                </div>
 
-                @endforeach
+                <div class="recipe-instructions-list">
+
+                    @foreach ($recipe->steps as $index => $step)
+
+                        <div class="recipe-instruction-item">
+
+                            <div class="recipe-instruction-number">
+                                {{ $index + 1 }}
+                            </div>
+
+                            <div class="recipe-instruction-content">
+                                <h5>Step {{ $index + 1 }}</h5>
+                                <p>{{ $step->instruction }}</p>
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
 
             </div>
-        </div>
-        {{-- Categories --}}
-        <div class="mb-4">
 
-            <h4>Categories</h4>
+            {{-- Categories --}}
+            <div class="recipe-detail-info mb-4">
 
-            @foreach ($recipe->categories as $category)
+                <div class="recipe-detail-section-heading">
+                    <span class="recipe-detail-section-number">04</span>
+                    <div>
+                        <h4>Recipe Categories</h4>
+                        <p>Find your next kitchen inspiration!</p>
+                    </div>
+                </div>
 
-                <span class="badge badge-primary mr-2 mb-2">
-                    {{ $category->name }}
-                </span>
+                <div class="recipe-category-list">
 
-            @endforeach
+                    @foreach ($recipe->categories as $category)
 
-        </div>
+                        <span class="recipe-category-badge">
+                            <i class="fas fa-utensils"></i>
+                            {{ $category->name }}
+                        </span>
+
+                    @endforeach
+
+                </div>
+
+            </div>
+
+            {{-- FeedMe Kitchen Sign-off --}}
+            <div class="recipe-mascot-footer">
+                <div class="recipe-mascot-image">
+                    <img
+                        src="{{ asset('images/winking_mascot_spaghetti.png') }}"
+                        alt="FeedMe burger chef presenting a plate of spaghetti"
+                    >
+                </div>
+
+                <div class="recipe-mascot-message">
+                    <span>FROM OUR KITCHEN TO YOURS</span>
+                    <h3>Made with a little FeedMe love!</h3>
+                    <p>
+                        Happy cooking, and thanks for sharing your recipe
+                        with our kitchen!
+                    </p>
+                </div>
+            </div>
 
         </div>
     </div>

@@ -22,7 +22,17 @@
   <body>
     <header class="header-bar mb-3">
       <div class="container d-flex flex-column flex-md-row align-items-center p-3">
-        <h4 class="my-0 mr-md-auto font-weight-normal"><a href="/" wire:navigate class="text-white">FeedMe <i class="bi bi-fork-knife"></i></a></h4>
+        <h4 class="my-0 mr-md-auto font-weight-normal">
+            <a href="/" wire:navigate class="header-brand">
+                <img
+                    src="{{ asset('images/winking_mascot_spaghetti.png') }}"
+                    alt="FeedMe mascot"
+                    class="header-mascot"
+                >
+                <span>FeedMe</span>
+                <i class="bi bi-fork-knife"></i>
+            </a>
+        </h4>
         
         @auth
         <div class="d-flex flex-row align-items-center my-3 my-md-0">

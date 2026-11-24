@@ -85,6 +85,8 @@ new class extends Component
 
 <div
     class="livewire-chat"
+    x-show="receiverId !== null"
+    x-cloak
     x-data="{
         receiverId: null,
         channel: null,

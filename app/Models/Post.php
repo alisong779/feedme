@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Recipe;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
 class Post extends Model
@@ -34,7 +33,7 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function recipe()
+    public function recipe(): HasOne
     {
         return $this->hasOne(Recipe::class);
     }

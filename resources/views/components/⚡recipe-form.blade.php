@@ -303,149 +303,238 @@ new class extends Component
 };
 ?>
 <div class="container py-5">
+    {{-- FeedMe Recipe Banner --}}
+    <div class="feedme-recipe-banner mb-4">
+        <img
+            src="{{ asset('images/feedme-create-banner.png') }}"
+            alt="FeedMe - Share Something Delicious"
+            class="img-fluid w-100"
+        >
+    </div>
+
     @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="container--narrow mx-auto">
+    <div class="container mx-auto">
 
         <h2 class="mb-4">
             {{ $recipeId ? 'Edit Recipe' : 'Create a Recipe' }}
         </h2>
 
-        {{-- Recipe Name --}}
-        <div class="form-group">
-            <label>Recipe Name</label>
+        {{-- Recipe Details --}}
+        <div class="recipe-form-card">
 
-            <input
-                type="text"
-                class="form-control"
-                wire:model="name"
-                placeholder="Enter recipe name"
-            >
+            <div class="recipe-section-heading">
+                <span class="recipe-section-number">01</span>
+                <div>
+                    <h4>Recipe Details</h4>
+                    <p>Every great recipe starts with a name!</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Recipe Name</label>
+
+                <input
+                    type="text"
+                    class="form-control recipe-input"
+                    wire:model="name"
+                    placeholder="e.g. Grandma's Homemade Lasagna"
+                >
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group mb-0">
+                <label>Description</label>
+
+                <textarea
+                    class="form-control recipe-input"
+                    wire:model="description"
+                    rows="4"
+                    placeholder="Tell us what makes this recipe special..."
+                ></textarea>
+                @error('description')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
         </div>
 
-        {{-- Description --}}
-        <div class="form-group">
-            <label>Description</label>
-
-            <textarea
-                class="form-control"
-                wire:model="description"
-                rows="3"
-                placeholder="Tell us about your recipe..."
-            ></textarea>
-        </div>
-
-        {{-- Recipe Image --}}
         <hr>
 
-        <h4>Recipe Image</h4>
+        {{-- Recipe Photo Upload --}}
+        <div class="recipe-form-card">
 
-        <div class="form-group">
-            <label for="image">Upload a recipe photo</label>
+            <div class="recipe-section-heading">
+                <span class="recipe-section-number">02</span>
+                <div>
+                    <h4>Recipe Photo</h4>
+                    <p>Show us what you're cooking!</p>
+                </div>
+            </div>
 
-            <input
-                type="file"
-                id="image"
-                class="form-control-file"
-                wire:model="image"
-                accept="image/*"
-            >
+            <div class="recipe-upload-area">
 
-            @error('image')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
+                <div class="recipe-upload-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
 
-            <div wire:loading wire:target="image" class="text-muted mt-2">
-                Uploading image...
+                <h5>Got a delicious photo?</h5>
+
+                <p>
+                    Choose a picture of your finished dish.
+                    We'd love to see it!
+                </p>
+
+                <label for="image" class="btn recipe-upload-btn">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                    Choose Recipe Photo
+                </label>
+
+                <input
+                    type="file"
+                    id="image"
+                    class="recipe-file-input"
+                    wire:model="image"
+                    accept="image/*"
+                >
+
+                <small class="text-muted d-block mt-2">
+                    JPG, PNG or other image formats
+                </small>
+
+                @error('image')
+                    <div class="text-danger mt-2">{{ $message }}</div>
+                @enderror
+
+                <div wire:loading wire:target="image"
+                    class="recipe-upload-loading mt-3">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    Uploading your photo...
+                </div>
+
             </div>
 
             @if ($image)
                 {{-- Preview newly uploaded image --}}
-                <div class="mt-3">
+                <div class="recipe-preview-container mt-4">
+                    <h5>Your New Recipe Photo</h5>
+
                     <img
                         src="{{ $image->temporaryUrl() }}"
-                        class="img-fluid rounded"
-                        style="max-width: 350px;"
+                        class="recipe-image-preview"
                         alt="New recipe image preview"
                     >
                 </div>
+
             @elseif ($existingImage)
                 {{-- Display the currently saved image --}}
-                <div class="mt-3">
-                    <p class="text-muted mb-2">Current recipe image:</p>
+                <div class="recipe-preview-container mt-4">
+                    <h5>Current Recipe Photo</h5>
+
                     <img
                         src="{{ asset('storage/' . $existingImage) }}"
-                        class="img-fluid rounded"
-                        style="max-width: 350px;"
+                        class="recipe-image-preview"
                         alt="Current recipe image"
                     >
+
+                    <p class="text-muted mt-2 mb-0">
+                        Choose another photo above to replace this one.
+                    </p>
                 </div>
             @endif
+
         </div>
+
 
         <hr>
 
         {{-- Preparation Information --}}
-        <h4>Preparation Information</h4>
+        <div class="recipe-form-card">
 
-        <div class="form-row">
-
-            <div class="form-group col-md-3">
-                <label>Prep Time (minutes)</label>
-                <input
-                    type="number"
-                    class="form-control"
-                    wire:model="prepTime"
-                    min="0"
-                >
+            <div class="recipe-section-heading">
+                <span class="recipe-section-number">03</span>
+                <div>
+                    <h4>Preparation Information</h4>
+                    <p>A few details to help fellow food lovers.</p>
+                </div>
             </div>
 
-            <div class="form-group col-md-3">
-                <label>Cook Time (minutes)</label>
-                <input
-                    type="number"
-                    class="form-control"
-                    wire:model="cookTime"
-                    min="0"
-                >
+            <div class="form-row">
+
+                <div class="form-group col-md-3">
+                    <label>Prep Time</label>
+                    <div class="recipe-input-group">
+                        <input
+                            type="number"
+                            class="form-control recipe-input"
+                            wire:model="prepTime"
+                            min="0"
+                            placeholder="0"
+                        >
+                        <span>min</span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>Cook Time</label>
+                    <div class="recipe-input-group">
+                        <input
+                            type="number"
+                            class="form-control recipe-input"
+                            wire:model="cookTime"
+                            min="0"
+                            placeholder="0"
+                        >
+                        <span>min</span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>Servings</label>
+                    <input
+                        type="number"
+                        class="form-control recipe-input"
+                        wire:model="servings"
+                        min="1"
+                        placeholder="e.g. 4"
+                    >
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>Difficulty</label>
+
+                    <select
+                        class="form-control recipe-input"
+                        wire:model="difficulty"
+                    >
+                        <option value="">Select</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+
             </div>
 
-            <div class="form-group col-md-3">
-                <label>Servings</label>
-                <input
-                    type="number"
-                    class="form-control"
-                    wire:model="servings"
-                    min="1"
-                >
+        </div>
+
+        <hr>
+         
+         {{-- Recipe Categories --}}
+        <div class="recipe-form-card">
+            <div class="recipe-section-heading">
+                <span class="recipe-section-number">04</span>
+                <div>
+                    <h4>Recipe Categories</h4>
+                    <p>Select all categories that apply to your recipe.</p>
+                </div>
             </div>
-
-            <div class="form-group col-md-3">
-                <label>Difficulty</label>
-
-                <select
-                    class="form-control"
-                    wire:model="difficulty"
-                >
-                    <option value="">Select</option>
-                    <option value="Easy">Easy</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
-                </select>
-            </div>
-
-            <hr>
-
-            {{-- Recipe Categories --}}
-            <h4>Recipe Categories</h4>
-
-            <p class="text-muted">
-                Select all categories that apply to your recipe.
-            </p>
 
             <div class="d-flex flex-wrap mb-3">
 
@@ -459,130 +548,169 @@ new class extends Component
                         {{ $category->name }}
                     </label>
                 @endforeach
+            </div>      
+        </div>
 
+         <hr>
+        
+        {{-- Ingredients --}}
+        <div class="recipe-form-card">
+
+            <div class="recipe-section-heading">
+                <span class="recipe-section-number">05</span>
+                <div>
+                    <h4>Ingredients</h4>
+                    <p>Let's gather everything we need!</p>
+                </div>
             </div>
+
+            @foreach ($ingredients as $index => $ingredient)
+
+                <div class="ingredient-row"
+                    wire:key="ingredient-{{ $index }}">
+
+                    <div class="ingredient-number">
+                        {{ $index + 1 }}
+                    </div>
+
+                    <div class="row flex-grow-1 align-items-center">
+
+                        <div class="col-md-2 form-group mb-2">
+                            <input
+                                type="text"
+                                class="form-control recipe-input"
+                                wire:model="ingredients.{{ $index }}.quantity"
+                                placeholder="Qty"
+                            >
+                        </div>
+
+                        <div class="col-md-3 form-group mb-2">
+                            <input
+                                type="text"
+                                class="form-control recipe-input"
+                                wire:model="ingredients.{{ $index }}.measurement"
+                                placeholder="Measurement"
+                            >
+                        </div>
+
+                        <div class="col-md-5 form-group mb-2">
+                            <input
+                                type="text"
+                                class="form-control recipe-input"
+                                wire:model="ingredients.{{ $index }}.name"
+                                placeholder="Ingredient name"
+                            >
+                            @error("ingredients.$index.name")
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2 form-group mb-2">
+                            <button
+                                type="button"
+                                class="btn recipe-remove-btn btn-sm"
+                                wire:click="removeIngredient({{ $index }})"
+                            >
+                                Remove
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            @endforeach
+
+            <button
+                type="button"
+                class="btn recipe-add-btn mt-3"
+                wire:click="addIngredient"
+            >
+                + Add Ingredient
+            </button>
 
         </div>
 
+
         <hr>
+    
+        {{-- Recipe Instructions --}}
+        <div class="recipe-form-card">
 
-        {{-- Ingredients --}}
-        <h4>Ingredients</h4>
-
-        @foreach ($ingredients as $index => $ingredient)
-
-            <div
-                class="form-row align-items-center mb-2"
-                wire:key="ingredient-{{ $index }}"
-            >
-
-                <div class="col-md-2">
-                    <input
-                        type="text"
-                        class="form-control"
-                        wire:model="ingredients.{{ $index }}.quantity"
-                        placeholder="Qty"
-                    >
+            <div class="recipe-section-heading">
+                <span class="recipe-section-number">06</span>
+                <div>
+                    <h4>Cooking Instructions</h4>
+                    <p>Walk us through your culinary masterpiece!</p>
                 </div>
+            </div>
 
-                <div class="col-md-3">
-                    <input
-                        type="text"
-                        class="form-control"
-                        wire:model="ingredients.{{ $index }}.measurement"
-                        placeholder="Measurement"
-                    >
-                </div>
+            @foreach ($steps as $index => $step)
 
-                <div class="col-md-5">
-                    <input
-                        type="text"
-                        class="form-control"
-                        wire:model="ingredients.{{ $index }}.name"
-                        placeholder="Ingredient"
-                    >
-                </div>
+                <div class="instruction-row"
+                    wire:key="step-{{ $index }}">
 
-                <div class="col-md-2">
+                    <div class="instruction-number">
+                        Step {{ $index + 1 }}
+                    </div>
+
+                    <div class="form-group flex-grow-1 mb-2">
+
+                        <textarea
+                            class="form-control recipe-input"
+                            wire:model="steps.{{ $index }}.instruction"
+                            rows="3"
+                            placeholder="What happens next? Describe this step..."
+                        ></textarea>
+
+                        @error("steps.$index.instruction")
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+
+                    </div>
+
                     <button
                         type="button"
-                        class="btn btn-outline-danger btn-sm"
-                        wire:click="removeIngredient({{ $index }})"
+                        class="btn recipe-remove-btn btn-sm"
+                        wire:click="removeStep({{ $index }})"
                     >
-                        Remove
+                        Remove Step
                     </button>
+
                 </div>
 
-            </div>
+            @endforeach
 
-        @endforeach
-
-        <button
-            type="button"
-            class="btn btn-outline-primary btn-sm mt-2"
-            wire:click="addIngredient"
-        >
-            + Add Ingredient
-        </button>
-
-        <hr>
-
-        {{-- Instructions --}}
-        <h4>Recipe Instructions</h4>
-
-        @foreach ($steps as $index => $step)
-
-            <div
-                class="form-group"
-                wire:key="step-{{ $index }}"
+            <button
+                type="button"
+                class="btn recipe-add-btn mt-3"
+                wire:click="addStep"
             >
+                + Add Another Step
+            </button>
 
-                <label>Step {{ $index + 1 }}</label>
+        </div>
 
-                <textarea
-                    class="form-control"
-                    wire:model="steps.{{ $index }}.instruction"
-                    rows="2"
-                    placeholder="Describe this step..."
-                ></textarea>
-
-                <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm mt-2"
-                    wire:click="removeStep({{ $index }})"
-                >
-                    Remove Step
-                </button>
-
-            </div>
-
-        @endforeach
-
-        <button
-            type="button"
-            class="btn btn-outline-primary btn-sm"
-            wire:click="addStep"
-        >
-            + Add Step
-        </button>
 
     </div>
 
     <hr>
-
+   
     <button
         type="button"
-        class="btn btn-primary"
+        class="btn recipe-submit-btn"
         wire:click="saveRecipe"
         wire:loading.attr="disabled"
     >
         <span wire:loading.remove wire:target="saveRecipe">
-            {{ $recipeId ? 'Update Recipe' : 'Create Recipe' }}
+            <i class="fas fa-utensils mr-2"></i>
+            {{ $recipeId ? 'Update Recipe' : 'Share My Recipe!' }}
         </span>
 
         <span wire:loading wire:target="saveRecipe">
+            <i class="fas fa-spinner fa-spin mr-2"></i>
             Saving Recipe...
         </span>
     </button>
+
 
 </div>
